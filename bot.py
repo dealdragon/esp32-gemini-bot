@@ -58,9 +58,10 @@ def solve_math_problem(image_bytes):
         response = model.generate_content([image, prompt])
         return response.text.strip()
     except Exception as e:
-        print(f"[ERROR] Gemini processing failed: {e}")
-        return "AI Error: Could not solve."
-        app = Flask(__name__)
+    print(f"[ERROR] Gemini processing failed: {e}")
+    return "AI Error: Could not solve."
+
+app = Flask(__name__)
 
 @app.route("/")
 def home():

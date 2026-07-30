@@ -66,9 +66,9 @@ def download_file(file_path):
         response = requests.get(url, timeout=30)
         return response.content
     except Exception as e:
-        print(f"[ERROR] download_file: {e}")
-        return None
-
+    error = str(e)
+    print(f"[ERROR] Gemini: {error}")
+    return f"Gemini Error:\n{error}"
 
 def send_message(chat_id, text):
     url = f"{TELEGRAM_API_URL}/sendMessage"

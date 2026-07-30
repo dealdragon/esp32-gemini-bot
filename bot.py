@@ -55,8 +55,8 @@ def get_updates(offset=None):
         response = requests.get(url, params=params, timeout=110)
         return response.json()
     except Exception as e:
-        print(f"[ERROR] getUpdates: {e}")
-        return None
+    print(f"[ERROR] Gemini: {e}")
+    return "AI Error"
 
 
 def download_file(file_path):

@@ -57,6 +57,8 @@ def get_updates(offset=None):
     except Exception as e:
         print(f"[ERROR] Gemini: {e}")
         return "AI Error"
+    \n{str(e)}"
+        
 
 
 def download_file(file_path):
@@ -90,13 +92,31 @@ def solve_math_problem(image_bytes):
         image = Image.open(io.BytesIO(image_bytes))
 
         prompt = (
-            "Analyze this image. "
-            "Extract the question accurately. "
-            "Solve it step by step. "
-            "Return only the final answer."
+            prompt = """
+Analyze the uploaded image.
+
+Instructions:
+1. If it contains a mathematics problem, solve it step by step.
+2. If it contains a descriptive or theoretical question, provide a complete, well-structured answer.
+3. If it contains physics, chemistry, biology, electronics, programming, engineering, or aptitude questions, answer them correctly with clear explanations.
+4. If there are multiple questions, answer each separately.
+5. If the handwriting is unclear, mention which words cannot be read instead of guessing.
+
+Presentation style:
+- Write answers in a neat university exam format.
+- Show all necessary steps and calculations.
+- State formulas before using them where appropriate.
+- Explain the reasoning briefly.
+- Present the answer as a student would write in an engineering examination.
+- Keep the answer clear, organized, and suitable for earning full marks.
+
+If the question paper appears to be from a university or college, answer in a style appropriate for that level.
+"""
         )
 
         response = model.generate_content([image, prompt])
+        Image.open(io.BytesIO(image_bytes))
+        ])
 
         return response.text.strip()
 

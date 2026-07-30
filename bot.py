@@ -113,9 +113,12 @@ If the question paper appears to be from a university or college, answer in a st
 """
         )
 
-        response = model.generate_content([image, prompt])
-        Image.open(io.BytesIO(image_bytes))
-        ])
+        image = Image.open(io.BytesIO(image_bytes))
+
+     response = model.generate_content([
+        prompt,
+        image
+     ])
 
         return response.text.strip()
 

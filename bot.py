@@ -1,4 +1,6 @@
 import os
+import threading
+from flask import Flask
 import time
 import requests
 import google.generativeai as genai
@@ -8,8 +10,8 @@ import io
 # ==========================================
 # CONFIGURATION
 # ==========================================
-TELEGRAM_BOT_TOKEN = "BOT_TOKEN"
-GEMINI_API_KEY = "GEMINI_API_KEY"
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")"
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
@@ -58,6 +60,15 @@ def solve_math_problem(image_bytes):
     except Exception as e:
         print(f"[ERROR] Gemini processing failed: {e}")
         return "AI Error: Could not solve."
+        app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "ESP32 Gemini Bot is running!"
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
 
 def main():
     print("[INFO] Python Telegram-Gemini Bridge Started...")
@@ -97,7 +108,5 @@ def main():
         time.sleep(1)
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\n[INFO] Exiting program gracefully.")
+    threading.Thread(target=main, daemon=True).start()
+    run_web()

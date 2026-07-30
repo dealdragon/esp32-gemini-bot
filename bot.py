@@ -11,7 +11,7 @@ import io
 # CONFIGURATION
 # ==========================================
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)

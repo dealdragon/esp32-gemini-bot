@@ -56,8 +56,7 @@ def get_updates(offset=None):
         return response.json()
     except Exception as e:
         print(f"[ERROR] Gemini: {e}")
-        return "AI Error"
-    \n{str(e)}"
+        return f"Gemini Error:\n{str(e)}"
         
 
 

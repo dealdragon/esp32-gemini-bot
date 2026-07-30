@@ -63,7 +63,7 @@ def get_updates(offset=None):
 def download_file(file_path):
     url = f"https://api.telegram.org/file/bot{TELEGRAM_BOT_TOKEN}/{file_path}"
 
-    try:
+ try:
     response = requests.get(url, params=params, timeout=110)
     return response.content
 except Exception as e:

@@ -1,7 +1,5 @@
-python-telegram-bot
-google-generativeai
 requests
+google-generativeai
 Pillow
 Flask
 gunicorn
-python-dotenv

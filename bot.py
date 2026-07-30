@@ -63,13 +63,11 @@ def download_file(file_path):
     url = f"https://api.telegram.org/file/bot{TELEGRAM_BOT_TOKEN}/{file_path}"
 
     try:
-        response = requests.get(url, timeout=30)
-        return response.content
-    except Exception as e:
-    error = str(e)
-    print(f"[ERROR] Gemini: {error}")
-    return f"Gemini Error:\n{error}"
-
+    response = requests.get(url, params=params, timeout=110)
+    return response.json()
+except Exception as e:
+    print(f"[ERROR] Gemini: {e}")
+    return "AI Error"
 def send_message(chat_id, text):
     url = f"{TELEGRAM_API_URL}/sendMessage"
 
@@ -81,8 +79,7 @@ def send_message(chat_id, text):
     try:
         requests.post(url, json=payload, timeout=10)
     except Exception as e:
-        print(f"[ERROR] send_message: {e}")
-
+    error = str(e)
 
 # ==========================================
 # GEMINI

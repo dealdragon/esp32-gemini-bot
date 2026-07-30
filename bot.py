@@ -63,13 +63,12 @@ def get_updates(offset=None):
 def download_file(file_path):
     url = f"https://api.telegram.org/file/bot{TELEGRAM_BOT_TOKEN}/{file_path}"
 
-  try:
-      response = requests.get(url, params=params, timeout=110)
-      return response.content
- except Exception as e:
-    print(f"[ERROR] Download: {e}")
-    return None
-def send_message(chat_id, text):
+    try:
+        response = requests.get(url, timeout=30)
+        return response.content
+    except Exception as e:
+        print(f"[ERROR] Download: {e}")
+        return None
     url = f"{TELEGRAM_API_URL}/sendMessage"
 
     payload = {

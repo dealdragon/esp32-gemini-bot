@@ -153,8 +153,8 @@ Presentation Rules:
 
     return response.choices[0].message.content.strip()
         except Exception as e:
-        print(e)
-        return f"Gemini Error:\n{e}"
+            print(e)
+            return f"Gemini Error:\n{e}"
         # =====================================
 # MAIN LOOP
 # =====================================

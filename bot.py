@@ -133,9 +133,9 @@ Presentation Rules:
 
         image_b64 = base64.b64encode(image_bytes).decode("utf-8")
 
-response = client.chat.completions.create(
-    model="openrouter/auto",
-    messages=[
+        response = client.chat.completions.create(
+        model="openrouter/auto",
+        messages=[
         {
             "role": "user",
             "content": [
@@ -151,8 +151,8 @@ response = client.chat.completions.create(
     ]
 )
 
-return response.choices[0].message.content.strip()
-    except Exception as e:
+    return response.choices[0].message.content.strip()
+        except Exception as e:
         print(e)
         return f"Gemini Error:\n{e}"
         # =====================================

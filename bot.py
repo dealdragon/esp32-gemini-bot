@@ -59,6 +59,10 @@ def get_updates(offset=None):
         r = requests.get(url, params=params, timeout=120)
         return r.json()
     except Exception as e:
+    import traceback
+        traceback.print_exc()
+        print("FULL ERROR:", repr(e))
+        return f"OpenRouter Error:\n{type(e).__name__}: {repr(e)}"
         print(e)
         return None
 

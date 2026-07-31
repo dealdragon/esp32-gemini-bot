@@ -95,70 +95,64 @@ def send_message(chat_id, text):
 # =====================================
 
 def solve_question(image_bytes):
-
     try:
-
-        image = Image.open(io.BytesIO(image_bytes))
+        image_b64 = base64.b64encode(image_bytes).decode("utf-8")
 
         prompt = """
 Analyze the uploaded image carefully.
 
 If it contains:
-
-• Mathematics -> solve step by step.
-• Physics -> answer with explanation.
-• Chemistry -> answer with explanation.
-• Biology -> answer with explanation.
-• Electronics -> answer with explanation.
-• Programming -> explain and solve.
-• Artificial Intelligence / Machine Learning -> answer correctly.
-• Engineering questions -> answer completely.
-• Descriptive questions -> answer in university exam format.
-• Multiple questions -> answer every question separately.
-• Handwritten questions -> read carefully.
-• If any text is unreadable, clearly mention what cannot be read instead of guessing.
+- Mathematics -> solve step by step.
+- Physics -> answer with explanation.
+- Chemistry -> answer with explanation.
+- Biology -> answer with explanation.
+- Electronics -> answer with explanation.
+- Programming -> explain and solve.
+- Artificial Intelligence / Machine Learning -> answer completely.
+- Engineering questions -> answer completely.
+- Descriptive questions -> answer in university exam format.
+- Multiple questions -> answer every question.
+- Handwritten questions -> read carefully.
+- If any text is unreadable, clearly mention what cannot be read.
 
 Presentation Rules:
-
-• Use professional engineering university answer format.
-• Show formulas before calculations.
-• Show every calculation.
-• Explain reasoning.
-• Use headings.
-• Use bullet points.
-• Keep answers neat.
-• Keep answers concise but complete.
-• Maximize marks in engineering examinations.
+- Use professional engineering university answer format.
+- Show formulas before calculations.
+- Show every calculation.
+- Explain reasoning.
+- Use headings.
+- Use bullet points where needed.
+- Keep answers neat.
+- Keep answers concise but complete.
+- Maximize marks in engineering examinations.
 """
 
-        image_b64 = base64.b64encode(image_bytes).decode("utf-8")
-
         response = client.chat.completions.create(
-        model="openrouter/auto",
-        messages=[
-        {
-            "role": "user",
-            "content": [
-                {"type": "text", "text": prompt},
+            model="openrouter/auto",
+            messages=[
                 {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/jpeg;base64,{image_b64}"
-                    }
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": prompt
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{image_b64}"
+                            }
+                        }
+                    ]
                 }
             ]
-        }
-    ]
-)
+        )
 
-    return response.choices[0].message.content.strip()
-        except Exception as e:
-            print(e)
-            return f"Gemini Error:\n{e}"
-        # =====================================
-# MAIN LOOP
-# =====================================
+        return response.choices[0].message.content.strip()
 
+    except Exception as e:
+        print(e)
+        return f"OpenRouter Error:\n{e}"
 def main():
 
     print("Telegram-Gemini Bot Started")

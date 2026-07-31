@@ -151,8 +151,9 @@ Presentation Rules:
         return response.choices[0].message.content.strip()
 
     except Exception as e:
-        print(e)
-        return f"OpenRouter Error:\n{e}"
+    import traceback
+    traceback.print_exc()
+    return f"OpenRouter Error:\n{type(e).__name__}: {e}"
 def main():
 
     print("Telegram-Gemini Bot Started")

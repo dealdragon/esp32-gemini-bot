@@ -4,8 +4,8 @@ import time
 import threading
 
 import requests
-import google.generativeai as genai
-
+from openai import OpenAI
+import base64
 from flask import Flask
 from PIL import Image
 
@@ -14,17 +14,15 @@ from PIL import Image
 # =====================================
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
-if not TELEGRAM_BOT_TOKEN:
-    raise Exception("Missing TELEGRAM_BOT_TOKEN")
+if not OPENROUTER_API_KEY:
+    raise Exception("Missing OPENROUTER_API_KEY")
 
-if not GEMINI_API_KEY:
-    raise Exception("Missing GEMINI_API_KEY")
-
-genai.configure(api_key=GEMINI_API_KEY)
-
-model = genai.GenerativeModel("gemini-2.0-flash")
+client = OpenAI(
+    api_key=OPENROUTER_API_KEY,
+    base_url="https://openrouter.ai/api/v1"
+)
 
 TELEGRAM_API = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
 
@@ -133,13 +131,27 @@ Presentation Rules:
 • Maximize marks in engineering examinations.
 """
 
-        response = model.generate_content([
-            prompt,
-            image
-        ])
+        image_b64 = base64.b64encode(image_bytes).decode("utf-8")
 
-        return response.text.strip()
+response = client.chat.completions.create(
+    model="openrouter/auto",
+    messages=[
+        {
+            "role": "user",
+            "content": [
+                {"type": "text", "text": prompt},
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{image_b64}"
+                    }
+                }
+            ]
+        }
+    ]
+)
 
+return response.choices[0].message.content.strip()
     except Exception as e:
         print(e)
         return f"Gemini Error:\n{e}"

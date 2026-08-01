@@ -178,6 +178,15 @@ def main():
 
                     if "message" not in update:
                         continue
+                        message = update["message"]
+
+# Ignore messages sent by bots
+                     if message.get("from", {}).get("is_bot", False):
+                     continue
+
+# Ignore messages without a photo
+                    if "photo" not in message:
+                    continue
 
                     message = update["message"]
 # Ignore messages sent by bots
@@ -189,6 +198,8 @@ def main():
                       continue
 
                     chat_id = message["chat"]["id"]
+                     if str(chat_id) != "8947814197":
+                     continue
 
                     photo = message["photo"][-1]
 
@@ -216,7 +227,7 @@ def main():
 
                     answer = solve_question(image_bytes)
 
-                    send_message(chat_id, answer)
+                    send_message(chat_id, answer[:300])
 
         except Exception as e:
             print(f"[MAIN ERROR] {e}")

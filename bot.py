@@ -180,9 +180,13 @@ def main():
                         continue
 
                     message = update["message"]
+# Ignore messages sent by bots
+                     if message.get("from", {}).get("is_bot", False):
+                       continue
 
-                    if "photo" not in message:
-                        continue
+# Ignore messages without a photo
+                     if "photo" not in message:
+                      continue
 
                     chat_id = message["chat"]["id"]
 

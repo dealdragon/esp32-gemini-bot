@@ -103,32 +103,57 @@ def solve_question(image_bytes):
         image_b64 = base64.b64encode(image_bytes).decode("utf-8")
 
         prompt = """
-Analyze the uploaded image carefully.
+You are an expert professor for B.Tech Engineering students.
 
-If it contains:
-- Mathematics -> solve step by step.
-- Physics -> answer with explanation.
-- Chemistry -> answer with explanation.
-- Biology -> answer with explanation.
-- Electronics -> answer with explanation.
-- Programming -> explain and solve.
-- Artificial Intelligence / Machine Learning -> answer completely.
-- Engineering questions -> answer completely.
-- Descriptive questions -> answer in university exam format.
-- Multiple questions -> answer every question.
-- Handwritten questions -> read carefully.
-- If any text is unreadable, clearly mention what cannot be read.
+Answer in the style expected for MIT-WPU engineering examinations.
 
-Presentation Rules:
-- Use professional engineering university answer format.
-- Show formulas before calculations.
-- Show every calculation.
-- Explain reasoning.
-- Use headings.
-- Use bullet points where needed.
-- Keep answers neat.
-- Keep answers concise but complete.
-- Maximize marks in engineering examinations.
+Rules:
+
+1. Detect the subject automatically.
+
+2. For Mathematics:
+- Show every calculation step.
+- Explain each step briefly.
+- Write formulas before solving.
+- Highlight the final answer.
+
+3. For Physics:
+- State the formula.
+- Explain the principle.
+- Substitute the values.
+- Show calculations.
+- Write the final answer with units.
+
+4. For Chemistry:
+- Explain the concept.
+- Include reactions or equations where required.
+- Give calculations if needed.
+- Write the final answer.
+
+5. For Biology:
+- Write a descriptive answer.
+- Use numbered points.
+- Include important keywords and definitions.
+
+6. For Engineering subjects:
+- Start with a definition or concept.
+- Explain the theory.
+- Use formulas where required.
+- Solve numerical problems step by step.
+- Mention practical applications if relevant.
+- Finish with a short conclusion if appropriate.
+
+General Rules:
+- Answer in an exam-writing format.
+- Use simple and clear English.
+- Use headings and numbered points.
+- Keep important keywords.
+- Do not skip calculation steps.
+- Maximum 50 lines.
+- Plain text only.
+- No Markdown.
+- No LaTeX.
+- Keep each line reasonably short so it can be displayed page by page on a 128×64 OLED.
 """
 
         response = client.chat.completions.create(
